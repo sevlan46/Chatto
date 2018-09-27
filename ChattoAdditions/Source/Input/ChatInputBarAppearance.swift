@@ -32,7 +32,7 @@ public struct ChatInputBarAppearance {
             UIControlStateWrapper(state: .normal): UIColor.bma_color(rgb: 0x007AFF),
             UIControlStateWrapper(state: .highlighted): UIColor.bma_color(rgb: 0x007AFF).bma_blendWithColor(UIColor.white.withAlphaComponent(0.4))
         ]
-        public let accessibilityIdentifier = "chatto.inputbar.button.send"
+        public var buttonIcons: [UIControlStateWrapper: UIImage]?
     }
 
     public struct TabBarAppearance {
@@ -47,11 +47,12 @@ public struct ChatInputBarAppearance {
         public var tintColor: UIColor?
         public var borderColor = UIColor.clear
         public var borderWidth: CGFloat = 0
+        public var borderRadius: CGFloat = 0
         public var placeholderFont = UIFont.systemFont(ofSize: 12)
         public var placeholderColor = UIColor.gray
         public var placeholderText = ""
         public var textInsets = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
-        public let accessibilityIdentifier = "chatto.inputbar.inputfield.text"
+        public var textContainerInsets = UIEdgeInsets(top: 8, left: 12, bottom: 0, right: 0)
     }
 
     public var sendButtonAppearance = SendButtonAppearance()
