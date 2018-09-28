@@ -33,6 +33,8 @@ public struct ChatInputBarAppearance {
             UIControlStateWrapper(state: .highlighted): UIColor.bma_color(rgb: 0x007AFF).bma_blendWithColor(UIColor.white.withAlphaComponent(0.4))
         ]
         public var buttonIcons: [UIControlStateWrapper: UIImage]?
+        public var buttonOffsets = UIEdgeInsets(top: 10, left: 10, bottom: 0, right: 10)
+        public var buttonSize = CGSize(width: 30, height: 30)
     }
 
     public struct TabBarAppearance {

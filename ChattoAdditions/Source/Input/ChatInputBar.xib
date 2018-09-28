@@ -28,7 +28,7 @@
 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
 </textView>
 </subviews>
-<color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+<color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
 <constraints>
 <constraint firstAttribute="trailing" secondItem="fsh-hH-hKG" secondAttribute="trailing" constant="12" id="6tf-af-8GR"/>
 <constraint firstItem="fsh-hH-hKG" firstAttribute="top" secondItem="PSh-FN-cYI" secondAttribute="top" constant="8" id="9jS-Ng-86g"/>
@@ -115,6 +115,11 @@
 <connections>
 <outlet property="scrollView" destination="WNX-pj-5AB" id="Qqy-Ny-mng"/>
 <outlet property="sendButton" destination="hE9-hU-Ci1" id="VFQ-Pb-J37"/>
+<outlet property="sendButtonHeightConstraint" destination="nhf-0y-6kR" id="Tv8-gF-eP4"/>
+<outlet property="sendButtonLeftConstraint" destination="DWH-w5-BRr" id="ohW-F9-e6V"/>
+<outlet property="sendButtonRightConstraint" destination="8il-u9-aon" id="X5C-lM-sVC"/>
+<outlet property="sendButtonTopConstraint" destination="WFv-Kj-Q2n" id="lpI-aS-STc"/>
+<outlet property="sendButtonWidthConstraint" destination="PgY-mg-wt5" id="OzK-NG-7Zg"/>
 <outlet property="tabBarContainerHeightConstraint" destination="BMw-Ix-hZp" id="coD-X7-7XA"/>
 <outlet property="textBorderView" destination="PSh-FN-cYI" id="s3o-Rb-bf1"/>
 <outlet property="textView" destination="fsh-hH-hKG" id="QMH-G9-ADs"/>

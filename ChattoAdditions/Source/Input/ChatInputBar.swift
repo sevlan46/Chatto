@@ -54,6 +54,12 @@ open class ChatInputBar: ReusableXibView {
     @IBOutlet var constraintsForHiddenTextView: [NSLayoutConstraint]!
     @IBOutlet var tabBarContainerHeightConstraint: NSLayoutConstraint!
     
+    @IBOutlet weak var sendButtonTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak var sendButtonLeftConstraint: NSLayoutConstraint!
+    @IBOutlet weak var sendButtonRightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var sendButtonWidthConstraint: NSLayoutConstraint!
+    @IBOutlet weak var sendButtonHeightConstraint: NSLayoutConstraint!
+    
     @IBOutlet weak var textViewContainerTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var textViewContainerLeftConstraint: NSLayoutConstraint!
     @IBOutlet weak var textViewContainerBottomConstraint: NSLayoutConstraint!
@@ -199,7 +205,13 @@ extension ChatInputBar {
         
         self.tabBarInterItemSpacing = appearance.tabBarAppearance.interItemSpacing
         self.tabBarContentInsets = appearance.tabBarAppearance.contentInsets
+        
         self.sendButton.contentEdgeInsets = appearance.sendButtonAppearance.insets
+        self.sendButtonTopConstraint.constant = appearance.sendButtonAppearance.buttonOffsets.top
+        self.sendButtonLeftConstraint.constant = appearance.sendButtonAppearance.buttonOffsets.left
+        self.sendButtonRightConstraint.constant = appearance.sendButtonAppearance.buttonOffsets.right
+        self.sendButtonWidthConstraint.constant = appearance.sendButtonAppearance.buttonSize.width
+        self.sendButtonHeightConstraint.constant = appearance.sendButtonAppearance.buttonSize.height
         if let buttonIcons = appearance.sendButtonAppearance.buttonIcons {
             buttonIcons.forEach { (state, icon) in
                 self.sendButton.setBackgroundImage(icon, for: state.controlState)
