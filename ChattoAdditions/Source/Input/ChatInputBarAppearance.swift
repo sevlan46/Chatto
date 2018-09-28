@@ -53,6 +53,7 @@ public struct ChatInputBarAppearance {
         public var placeholderFont = UIFont.systemFont(ofSize: 12)
         public var placeholderColor = UIColor.gray
         public var placeholderText = ""
+        public var backgroundColor = UIColor.clear
         public var textInsets = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
         public var textContainerInsets = UIEdgeInsets(top: 8, left: 12, bottom: 0, right: 0)
     }
