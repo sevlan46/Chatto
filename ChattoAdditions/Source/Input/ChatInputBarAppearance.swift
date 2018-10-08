@@ -46,6 +46,7 @@ public struct ChatInputBarAppearance {
     public struct TextInputAppearance {
         public var font = UIFont.systemFont(ofSize: 12)
         public var topDescriptionTextFont = UIFont.systemFont(ofSize: 12)
+        public var topDescriptionTextColor = UIColor.gray
         public var charactersCountTextFont = UIFont.systemFont(ofSize: 12)
         public var charactersCountTextMinVisibilityCount: Int = 0
         public var charactersCountTextColorsRanges = [NSRange: UIColor]()

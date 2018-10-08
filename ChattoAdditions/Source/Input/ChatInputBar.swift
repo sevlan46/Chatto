@@ -46,7 +46,11 @@ open class ChatInputBar: ReusableXibView {
         return (!inputBar.textView.text.isEmpty && inputBar.isSendingEnable)
     }
     
-    public var isSendingEnable: Bool = true
+    public var isSendingEnable: Bool = true {
+        didSet {
+            updateSendButton()
+        }
+    }
     public var handleInputManually: Bool = true
     public var isTopDescriptionHidden: Bool = true {
         didSet {
@@ -294,6 +298,7 @@ extension ChatInputBar {
         
         self.topBorderHeightConstraint.constant = appearance.textInputAppearance.topHeight
         self.topDescriptionLabel.font = appearance.textInputAppearance.topDescriptionTextFont
+        self.topDescriptionLabel.textColor = appearance.textInputAppearance.topDescriptionTextColor
         
         self.charactersCountLabel.font = appearance.textInputAppearance.charactersCountTextFont
         self.charactersCountLabel.isHidden = !appearance.textInputAppearance.isCharactersCountTextVisible

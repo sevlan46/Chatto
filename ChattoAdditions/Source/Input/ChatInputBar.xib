@@ -111,7 +111,7 @@
                                 <action selector="buttonTapped:" destination="iN0-l3-epB" eventType="touchUpInside" id="9hi-0N-Y5F"/>
                             </connections>
                         </button>
-                        <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="IHF-cA-xhC">
+                        <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="IHF-cA-xhC">
                             <rect key="frame" x="3" y="3" width="20" height="20"/>
                         </activityIndicatorView>
                     </subviews>
