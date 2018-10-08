@@ -45,6 +45,11 @@ public struct ChatInputBarAppearance {
 
     public struct TextInputAppearance {
         public var font = UIFont.systemFont(ofSize: 12)
+        public var topDescriptionTextFont = UIFont.systemFont(ofSize: 12)
+        public var charactersCountTextFont = UIFont.systemFont(ofSize: 12)
+        public var charactersCountTextMinVisibilityCount: Int = 0
+        public var charactersCountTextColorsRanges = [NSRange: UIColor]()
+        public var isCharactersCountTextVisible: Bool = false
         public var textColor = UIColor.black
         public var tintColor: UIColor?
         public var borderColor = UIColor.clear
@@ -55,7 +60,8 @@ public struct ChatInputBarAppearance {
         public var placeholderText = ""
         public var backgroundColor = UIColor.clear
         public var textInsets = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
-        public var textContainerInsets = UIEdgeInsets(top: 8, left: 12, bottom: 0, right: 0)
+        public var textContainerInsets = UIEdgeInsets(top: 0, left: 12, bottom: 0, right: 0)
+        public var topHeight: CGFloat = 0
     }
 
     public var sendButtonAppearance = SendButtonAppearance()

@@ -43,14 +43,44 @@ open class ChatInputBar: ReusableXibView {
     weak var presenter: ChatInputBarPresenter?
 
     public var shouldEnableSendButton = { (inputBar: ChatInputBar) -> Bool in
-        return !inputBar.textView.text.isEmpty
+        return (!inputBar.textView.text.isEmpty && inputBar.isSendingEnable)
     }
+    
+    public var isSendingEnable: Bool = true
+    public var handleInputManually: Bool = true
+    public var isTopDescriptionHidden: Bool = true {
+        didSet {
+            if isTopDescriptionHidden {
+                descriptionLabelHeightConstraint.isActive = false
+                descriptionLableHiddenConstraint.isActive = true
+            } else {
+                descriptionLabelHeightConstraint.isActive = true
+                descriptionLableHiddenConstraint.isActive = false
+            }
+            self.layoutIfNeeded()
+        }
+    }
+    public var topDescriptionText: String {
+        set {
+            topDescriptionLabel.text = newValue
+        }
+        get {
+            return topDescriptionLabel.text ?? ""
+        }
+    }
+    var charactersCountLabelMinVisibilityCount: Int = 0
+    var charactersCountLabelColorsRanges: [NSRange: UIColor]?
 
     @IBOutlet weak var scrollView: HorizontalStackScrollView!
     @IBOutlet weak var textView: ExpandableTextView!
     @IBOutlet weak var sendButton: UIButton!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var textBorderView: UIView!
+    @IBOutlet weak var topDescriptionLabel: UILabel!
+    @IBOutlet weak var charactersCountLabel: UILabel!
     @IBOutlet weak var topBorderHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var descriptionLableHiddenConstraint: NSLayoutConstraint!
+    @IBOutlet weak var descriptionLabelHeightConstraint: NSLayoutConstraint!
     @IBOutlet var constraintsForHiddenTextView: [NSLayoutConstraint]!
     @IBOutlet var tabBarContainerHeightConstraint: NSLayoutConstraint!
     
@@ -162,14 +192,45 @@ open class ChatInputBar: ReusableXibView {
     fileprivate func updateSendButton() {
         self.sendButton.isEnabled = self.shouldEnableSendButton(self)
     }
+    
+    fileprivate func updateCharactersCountLabel(_ count: Int) {
+        guard let colorsRanges = charactersCountLabelColorsRanges else {
+            return
+        }
+        if count >= charactersCountLabelMinVisibilityCount {
+            charactersCountLabel.isHidden = false
+            charactersCountLabel.text = String(count)
+        } else {
+            charactersCountLabel.isHidden = true
+            return
+        }
+        for (range, color) in colorsRanges {
+            if range.contains(count) {
+                self.charactersCountLabel.textColor = color
+            }
+        }
+    }
 
     @IBAction func buttonTapped(_ sender: AnyObject) {
-        self.presenter?.onSendButtonPressed()
+        if !handleInputManually {
+            self.presenter?.onSendButtonPressed()
+        }
         self.delegate?.inputBarSendButtonPressed(self)
     }
 
     public func setTextViewPlaceholderAccessibilityIdentifer(_ accessibilityIdentifer: String) {
         self.textView.setTextPlaceholderAccessibilityIdentifier(accessibilityIdentifer)
+    }
+    
+    public func setLoading(_ isLoading: Bool) {
+        if isLoading {
+            sendButton.isHidden = true
+            activityIndicator.isHidden = false
+            activityIndicator.startAnimating()
+        } else {
+            sendButton.isHidden = false
+            activityIndicator.stopAnimating()
+        }
     }
 }
 
@@ -230,6 +291,15 @@ extension ChatInputBar {
         self.textViewContainerLeftConstraint.constant = appearance.textInputAppearance.textContainerInsets.left
         self.textViewContainerBottomConstraint.constant = appearance.textInputAppearance.textContainerInsets.bottom
         self.textViewContainerRightConstraint.constant = appearance.textInputAppearance.textContainerInsets.right
+        
+        self.topBorderHeightConstraint.constant = appearance.textInputAppearance.topHeight
+        self.topDescriptionLabel.font = appearance.textInputAppearance.topDescriptionTextFont
+        
+        self.charactersCountLabel.font = appearance.textInputAppearance.charactersCountTextFont
+        self.charactersCountLabel.isHidden = !appearance.textInputAppearance.isCharactersCountTextVisible
+        
+        self.charactersCountLabelMinVisibilityCount = appearance.textInputAppearance.charactersCountTextMinVisibilityCount
+        self.charactersCountLabelColorsRanges = appearance.textInputAppearance.charactersCountTextColorsRanges
     }
 }
 
@@ -270,8 +340,9 @@ extension ChatInputBar: UITextViewDelegate {
     }
 
     public func textViewDidChange(_ textView: UITextView) {
-        self.updateSendButton()
         self.delegate?.inputBarDidChangeText(self)
+        self.updateSendButton()
+        self.updateCharactersCountLabel(textView.text.count)
     }
 
     public func textView(_ textView: UITextView, shouldChangeTextIn nsRange: NSRange, replacementText text: String) -> Bool {
