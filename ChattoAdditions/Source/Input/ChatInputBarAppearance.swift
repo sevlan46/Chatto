@@ -23,6 +23,7 @@
 */
 
 public struct ChatInputBarAppearance {
+    
     public struct SendButtonAppearance {
         public var font = UIFont.systemFont(ofSize: 16)
         public var insets = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
@@ -64,10 +65,17 @@ public struct ChatInputBarAppearance {
         public var textContainerInsets = UIEdgeInsets(top: 0, left: 12, bottom: 0, right: 0)
         public var topHeight: CGFloat = 0
     }
+    
+    public struct SettingsButtonAppearance {
+        public var isShowing: Bool = false
+        public var icon: UIImage?
+        public var tapHandler: (() -> ())?
+    }
 
     public var sendButtonAppearance = SendButtonAppearance()
     public var tabBarAppearance = TabBarAppearance()
     public var textInputAppearance = TextInputAppearance()
+    public var settingsButtonAppearance = SettingsButtonAppearance()
 
     public init() {}
 }

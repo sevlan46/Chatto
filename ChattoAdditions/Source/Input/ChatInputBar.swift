@@ -87,6 +87,8 @@ open class ChatInputBar: ReusableXibView {
     @IBOutlet weak var descriptionLabelHeightConstraint: NSLayoutConstraint!
     @IBOutlet var constraintsForHiddenTextView: [NSLayoutConstraint]!
     @IBOutlet var tabBarContainerHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var settingsButton: UIButton!
+    @IBOutlet weak var settingsButtonImageView: UIImageView!
     
     @IBOutlet weak var sendButtonTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var sendButtonLeftConstraint: NSLayoutConstraint!
@@ -98,6 +100,10 @@ open class ChatInputBar: ReusableXibView {
     @IBOutlet weak var textViewContainerLeftConstraint: NSLayoutConstraint!
     @IBOutlet weak var textViewContainerBottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var textViewContainerRightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var settingsButtonContainerWidthConstraint: NSLayoutConstraint!
+    @IBOutlet weak var settingsButtonImageViewWidthConstraint: NSLayoutConstraint!
+    
+    fileprivate var settingsButtonTapHandler: (() -> ())?
     
     class open func loadNib() -> ChatInputBar {
         let view = Bundle(for: self).loadNibNamed(self.nibName(), owner: nil, options: nil)!.first as! ChatInputBar
@@ -305,6 +311,22 @@ extension ChatInputBar {
         
         self.charactersCountLabelMinVisibilityCount = appearance.textInputAppearance.charactersCountTextMinVisibilityCount
         self.charactersCountLabelColorsRanges = appearance.textInputAppearance.charactersCountTextColorsRanges
+        
+        if appearance.settingsButtonAppearance.isShowing,
+            let icon: UIImage = appearance.settingsButtonAppearance.icon,
+            let tapHandler: () -> () = appearance.settingsButtonAppearance.tapHandler {
+            settingsButtonContainerWidthConstraint.constant = 32.0
+            settingsButtonImageViewWidthConstraint.constant = 16.0
+            
+            settingsButtonTapHandler = tapHandler
+            settingsButton.setImage(icon, for: .normal)
+            settingsButton.addTarget(self, action: #selector(settingsButtonTap), for: .touchUpInside)
+        }
+    }
+    
+    @objc
+    private func settingsButtonTap() {
+        settingsButtonTapHandler?()
     }
 }
 
