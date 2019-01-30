@@ -64,6 +64,8 @@ public struct ChatInputBarAppearance {
         public var textInsets = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
         public var textContainerInsets = UIEdgeInsets(top: 0, left: 12, bottom: 0, right: 0)
         public var topHeight: CGFloat = 0
+        public var textFieldButtonIcon: UIImage?
+        public var textFieldButtonTap: (() -> ())?
     }
     
     public struct SettingsButtonAppearance {

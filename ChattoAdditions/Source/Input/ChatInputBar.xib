@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -92,14 +92,23 @@
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                 </textView>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KNH-rn-HGX">
+                                    <rect key="frame" x="478" y="0.0" width="40" height="138"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="40" id="dNS-rS-uhE"/>
+                                    </constraints>
+                                </button>
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
                                 <constraint firstItem="fsh-hH-hKG" firstAttribute="top" secondItem="PSh-FN-cYI" secondAttribute="top" constant="1" id="3Tg-pH-vpY"/>
                                 <constraint firstAttribute="trailing" secondItem="fsh-hH-hKG" secondAttribute="trailing" constant="12" id="6tf-af-8GR"/>
+                                <constraint firstAttribute="bottom" secondItem="KNH-rn-HGX" secondAttribute="bottom" id="DgR-he-yAV"/>
                                 <constraint firstItem="fsh-hH-hKG" firstAttribute="leading" secondItem="PSh-FN-cYI" secondAttribute="leading" constant="12" id="NRR-9W-Gj9"/>
+                                <constraint firstAttribute="trailing" secondItem="KNH-rn-HGX" secondAttribute="trailing" id="NRd-vC-WbL"/>
                                 <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="35" id="P7u-po-Qx5"/>
                                 <constraint firstAttribute="bottom" secondItem="fsh-hH-hKG" secondAttribute="bottom" id="SSf-Jr-Kfh"/>
+                                <constraint firstItem="KNH-rn-HGX" firstAttribute="top" secondItem="PSh-FN-cYI" secondAttribute="top" id="tjc-FZ-6le"/>
                             </constraints>
                         </view>
                     </subviews>
@@ -222,6 +231,7 @@
                 <outlet property="settingsButtonImageViewWidthConstraint" destination="Bgx-78-npl" id="hQe-87-a8q"/>
                 <outlet property="tabBarContainerHeightConstraint" destination="BMw-Ix-hZp" id="coD-X7-7XA"/>
                 <outlet property="textBorderView" destination="PSh-FN-cYI" id="s3o-Rb-bf1"/>
+                <outlet property="textFieldButton" destination="KNH-rn-HGX" id="Kz6-6F-ZZw"/>
                 <outlet property="textView" destination="fsh-hH-hKG" id="QMH-G9-ADs"/>
                 <outlet property="textViewContainerBottomConstraint" destination="SRF-Q8-vNB" id="oka-27-ZGZ"/>
                 <outlet property="textViewContainerLeftConstraint" destination="Q8N-AA-jZg" id="1u3-HL-4eG"/>

@@ -54,13 +54,8 @@ open class ChatInputBar: ReusableXibView {
     public var handleInputManually: Bool = true
     public var isTopDescriptionHidden: Bool = true {
         didSet {
-            if isTopDescriptionHidden {
-                descriptionLabelHeightConstraint.isActive = false
-                descriptionLableHiddenConstraint.isActive = true
-            } else {
-                descriptionLabelHeightConstraint.isActive = true
-                descriptionLableHiddenConstraint.isActive = false
-            }
+            descriptionLabelHeightConstraint.isActive = !isTopDescriptionHidden
+            descriptionLableHiddenConstraint.isActive = isTopDescriptionHidden
             self.layoutIfNeeded()
         }
     }
@@ -72,9 +67,15 @@ open class ChatInputBar: ReusableXibView {
             return topDescriptionLabel.text ?? ""
         }
     }
+    public var isTextFieldButtonHidden: Bool = true {
+        didSet {
+            textFieldButton.isHidden = isTextFieldButtonHidden
+        }
+    }
+    
     var charactersCountLabelMinVisibilityCount: Int = 0
     var charactersCountLabelColorsRanges: [NSRange: UIColor]?
-
+    
     @IBOutlet weak var scrollView: HorizontalStackScrollView!
     @IBOutlet weak var textView: ExpandableTextView!
     @IBOutlet weak var sendButton: UIButton!
@@ -89,6 +90,7 @@ open class ChatInputBar: ReusableXibView {
     @IBOutlet var tabBarContainerHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var settingsButton: UIButton!
     @IBOutlet weak var settingsButtonImageView: UIImageView!
+    @IBOutlet weak var textFieldButton: UIButton!
     
     @IBOutlet weak var sendButtonTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var sendButtonLeftConstraint: NSLayoutConstraint!
@@ -104,6 +106,7 @@ open class ChatInputBar: ReusableXibView {
     @IBOutlet weak var settingsButtonImageViewWidthConstraint: NSLayoutConstraint!
     
     fileprivate var settingsButtonTapHandler: (() -> ())?
+    fileprivate var textFieldButtonTapHandler: (() -> ())?
     
     class open func loadNib() -> ChatInputBar {
         let view = Bundle(for: self).loadNibNamed(self.nibName(), owner: nil, options: nil)!.first as! ChatInputBar
@@ -232,6 +235,16 @@ open class ChatInputBar: ReusableXibView {
         self.textView.setTextPlaceholderAccessibilityIdentifier(accessibilityIdentifer)
     }
     
+    public func setSendButtonIcons(_ icons: [UIControlStateWrapper: UIImage]) {
+        icons.forEach { (state, icon) in
+            self.sendButton.setBackgroundImage(icon, for: state.controlState)
+        }
+    }
+    
+    public func setTextFieldButtonIcon(_ icon: UIImage) {
+        textFieldButton.setImage(icon, for: .normal)
+    }
+    
     public func setLoading(_ isLoading: Bool) {
         if isLoading {
             sendButton.isHidden = true
@@ -274,6 +287,8 @@ extension ChatInputBar {
         self.textBorderView.layer.borderWidth = appearance.textInputAppearance.borderWidth
         self.textBorderView.layer.cornerRadius = appearance.textInputAppearance.borderRadius
         self.textBorderView.layer.masksToBounds = true
+        self.textFieldButton.setImage(appearance.textInputAppearance.textFieldButtonIcon, for: .normal)
+        self.textFieldButton.addTarget(self, action: #selector(textFieldButtonTap), for: .touchUpInside)
         
         self.tabBarInterItemSpacing = appearance.tabBarAppearance.interItemSpacing
         self.tabBarContentInsets = appearance.tabBarAppearance.contentInsets
@@ -328,6 +343,12 @@ extension ChatInputBar {
     private func settingsButtonTap() {
         settingsButtonTapHandler?()
     }
+    
+    @objc
+    private func textFieldButtonTap() {
+        textFieldButtonTapHandler?()
+    }
+    
 }
 
 extension ChatInputBar { // Tabar
