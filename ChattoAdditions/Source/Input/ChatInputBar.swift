@@ -36,6 +36,10 @@ public protocol ChatInputBarDelegate: class {
     func inputBarDidHidePlaceholder(_ inputBar: ChatInputBar)
 }
 
+public enum ChatSendButtonType {
+    case normal, custom
+}
+
 @objc
 open class ChatInputBar: ReusableXibView {
 
@@ -43,8 +47,15 @@ open class ChatInputBar: ReusableXibView {
     weak var presenter: ChatInputBarPresenter?
 
     public var shouldEnableSendButton = { (inputBar: ChatInputBar) -> Bool in
-        return (!inputBar.textView.text.isEmpty && inputBar.isSendingEnable)
+        switch inputBar.sendButtonType {
+        case .normal:
+            return !inputBar.textView.text.isEmpty && inputBar.isSendingEnable
+        case .custom:
+            return true
+        }
     }
+    
+    public var sendButtonType: ChatSendButtonType = .normal
     
     public var isSendingEnable: Bool = true {
         didSet {
@@ -254,6 +265,10 @@ open class ChatInputBar: ReusableXibView {
             sendButton.isHidden = false
             activityIndicator.stopAnimating()
         }
+    }
+    
+    public func focusOnTextField() {
+        textView.becomeFirstResponder()
     }
 }
 
