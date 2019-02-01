@@ -304,6 +304,7 @@ extension ChatInputBar {
         self.textBorderView.layer.masksToBounds = true
         self.textFieldButton.setImage(appearance.textInputAppearance.textFieldButtonIcon, for: .normal)
         self.textFieldButton.addTarget(self, action: #selector(textFieldButtonTap), for: .touchUpInside)
+        self.textFieldButtonTapHandler = appearance.textInputAppearance.textFieldButtonTap
         
         self.tabBarInterItemSpacing = appearance.tabBarAppearance.interItemSpacing
         self.tabBarContentInsets = appearance.tabBarAppearance.contentInsets
