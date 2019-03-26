@@ -298,6 +298,7 @@ extension ChatInputBar {
         self.textView.setTextPlaceholderColor(appearance.textInputAppearance.placeholderColor)
         self.textView.placeholderText = appearance.textInputAppearance.placeholderText
         self.textView.backgroundColor = appearance.textInputAppearance.backgroundColor
+        self.textView.keyboardAppearance = appearance.textInputAppearance.keyboardAppearance
         self.textBorderView.layer.borderColor = appearance.textInputAppearance.borderColor.cgColor
         self.textBorderView.layer.borderWidth = appearance.textInputAppearance.borderWidth
         self.textBorderView.layer.cornerRadius = appearance.textInputAppearance.borderRadius

@@ -66,6 +66,7 @@ public struct ChatInputBarAppearance {
         public var topHeight: CGFloat = 0
         public var textFieldButtonIcon: UIImage?
         public var textFieldButtonTap: (() -> ())?
+        public var keyboardAppearance: UIKeyboardAppearance = .dark
     }
     
     public struct SettingsButtonAppearance {
