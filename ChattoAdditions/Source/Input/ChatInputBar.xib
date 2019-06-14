@@ -87,7 +87,7 @@
                             <rect key="frame" x="0.0" y="0.0" width="518" height="138"/>
                             <subviews>
                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" verticalHuggingPriority="249" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="fsh-hH-hKG" userLabel="TextView" customClass="ExpandableTextView" customModule="ChattoAdditions" customModuleProvider="target">
-                                    <rect key="frame" x="12" y="1" width="494" height="137"/>
+                                    <rect key="frame" x="12" y="1" width="466" height="137"/>
                                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -102,12 +102,12 @@
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
                                 <constraint firstItem="fsh-hH-hKG" firstAttribute="top" secondItem="PSh-FN-cYI" secondAttribute="top" constant="1" id="3Tg-pH-vpY"/>
-                                <constraint firstAttribute="trailing" secondItem="fsh-hH-hKG" secondAttribute="trailing" constant="12" id="6tf-af-8GR"/>
                                 <constraint firstAttribute="bottom" secondItem="KNH-rn-HGX" secondAttribute="bottom" id="DgR-he-yAV"/>
                                 <constraint firstItem="fsh-hH-hKG" firstAttribute="leading" secondItem="PSh-FN-cYI" secondAttribute="leading" constant="12" id="NRR-9W-Gj9"/>
                                 <constraint firstAttribute="trailing" secondItem="KNH-rn-HGX" secondAttribute="trailing" id="NRd-vC-WbL"/>
                                 <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="35" id="P7u-po-Qx5"/>
                                 <constraint firstAttribute="bottom" secondItem="fsh-hH-hKG" secondAttribute="bottom" id="SSf-Jr-Kfh"/>
+                                <constraint firstItem="KNH-rn-HGX" firstAttribute="leading" secondItem="fsh-hH-hKG" secondAttribute="trailing" id="gh3-yH-WNf"/>
                                 <constraint firstItem="KNH-rn-HGX" firstAttribute="top" secondItem="PSh-FN-cYI" secondAttribute="top" id="tjc-FZ-6le"/>
                             </constraints>
                         </view>
