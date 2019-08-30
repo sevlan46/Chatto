@@ -25,6 +25,7 @@
 		55ABA5711FC74DB400923302 /* UIView+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55ABA5701FC74DB400923302 /* UIView+Additions.swift */; };
 		55ABA5731FC74E0400923302 /* UIEdgeInets+AdditionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55ABA5721FC74E0400923302 /* UIEdgeInets+AdditionsTests.swift */; };
 		55ABA5771FC74F8D00923302 /* ObservableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55ABA5761FC74F8D00923302 /* ObservableTests.swift */; };
+		A0A9EE6723193372007D35B0 /* SupplementaryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0A9EE6623193372007D35B0 /* SupplementaryButton.swift */; };
 		C33DEA451D23F825002AAD26 /* LiveCameraCellPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C33DEA441D23F825002AAD26 /* LiveCameraCellPresenter.swift */; };
 		C33DEA471D23F8C8002AAD26 /* LiveCameraCaptureSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = C33DEA461D23F8C8002AAD26 /* LiveCameraCaptureSession.swift */; };
 		C35FE3C51C0331CF00D42980 /* TextMessagePresenterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C35FE3C41C0331CF00D42980 /* TextMessagePresenterTests.swift */; };
@@ -136,6 +137,7 @@
 		55ABA5701FC74DB400923302 /* UIView+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Additions.swift"; sourceTree = "<group>"; };
 		55ABA5721FC74E0400923302 /* UIEdgeInets+AdditionsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIEdgeInets+AdditionsTests.swift"; sourceTree = "<group>"; };
 		55ABA5761FC74F8D00923302 /* ObservableTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObservableTests.swift; sourceTree = "<group>"; };
+		A0A9EE6623193372007D35B0 /* SupplementaryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupplementaryButton.swift; sourceTree = "<group>"; };
 		C33DEA441D23F825002AAD26 /* LiveCameraCellPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LiveCameraCellPresenter.swift; sourceTree = "<group>"; };
 		C33DEA461D23F8C8002AAD26 /* LiveCameraCaptureSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LiveCameraCaptureSession.swift; sourceTree = "<group>"; };
 		C35FE3C41C0331CF00D42980 /* TextMessagePresenterTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TextMessagePresenterTests.swift; path = "Tests/Chat Items/TextMessages/TextMessagePresenterTests.swift"; sourceTree = SOURCE_ROOT; };
@@ -417,6 +419,7 @@
 				C3C0CC161BFE496A0052747C /* ReusableXibView.swift */,
 				C3C9BC8E1D11540D00F3A54E /* TabInputButton.swift */,
 				C3C0CC171BFE496A0052747C /* Text */,
+				A0A9EE6623193372007D35B0 /* SupplementaryButton.swift */,
 			);
 			path = Input;
 			sourceTree = "<group>";
@@ -633,6 +636,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 			);
 			mainGroup = C3C0CBAE1BFE49320052747C;
@@ -746,6 +750,7 @@
 				C33DEA471D23F8C8002AAD26 /* LiveCameraCaptureSession.swift in Sources */,
 				CDC610041FD80BB900C2588E /* PhotosInputPlaceholderCellProvider.swift in Sources */,
 				C3C0CC671BFE496A0052747C /* CircleIconView.m in Sources */,
+				A0A9EE6723193372007D35B0 /* SupplementaryButton.swift in Sources */,
 				C3C0CC301BFE496A0052747C /* ViewDefinitions.swift in Sources */,
 				C3C0CC531BFE496A0052747C /* ChatInputItem.swift in Sources */,
 				C3C0CC421BFE496A0052747C /* TextMessageCollectionViewCell.swift in Sources */,
@@ -842,7 +847,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -893,7 +898,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";

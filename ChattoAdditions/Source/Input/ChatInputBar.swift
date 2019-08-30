@@ -1,18 +1,18 @@
 /*
  The MIT License (MIT)
-
+ 
  Copyright (c) 2015-present Badoo Trading Limited.
-
+ 
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
  in the Software without restriction, including without limitation the rights
  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  copies of the Software, and to permit persons to whom the Software is
  furnished to do so, subject to the following conditions:
-
+ 
  The above copyright notice and this permission notice shall be included in
  all copies or substantial portions of the Software.
-
+ 
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -20,7 +20,7 @@
  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
-*/
+ */
 
 import UIKit
 
@@ -42,10 +42,10 @@ public enum ChatSendButtonType {
 
 @objc
 open class ChatInputBar: ReusableXibView {
-
+    
     public weak var delegate: ChatInputBarDelegate?
     weak var presenter: ChatInputBarPresenter?
-
+    
     public var shouldEnableSendButton = { (inputBar: ChatInputBar) -> Bool in
         switch inputBar.sendButtonType {
         case .normal:
@@ -78,11 +78,6 @@ open class ChatInputBar: ReusableXibView {
             return topDescriptionLabel.text ?? ""
         }
     }
-    public var isTextFieldButtonHidden: Bool = true {
-        didSet {
-            textFieldButton.isHidden = isTextFieldButtonHidden
-        }
-    }
     
     var charactersCountLabelMinVisibilityCount: Int = 0
     var charactersCountLabelColorsRanges: [NSRange: UIColor]?
@@ -101,7 +96,8 @@ open class ChatInputBar: ReusableXibView {
     @IBOutlet var tabBarContainerHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var settingsButton: UIButton!
     @IBOutlet weak var settingsButtonImageView: UIImageView!
-    @IBOutlet weak var textFieldButton: UIButton!
+    
+    @IBOutlet weak var supplementaryButtonsStackView: UIStackView!
     
     @IBOutlet weak var sendButtonTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var sendButtonLeftConstraint: NSLayoutConstraint!
@@ -118,6 +114,7 @@ open class ChatInputBar: ReusableXibView {
     
     fileprivate var settingsButtonTapHandler: (() -> ())?
     fileprivate var textFieldButtonTapHandler: (() -> ())?
+    private var supplementaryButtonsMap: [UIButton: SupplementaryButton] = [:]
     
     class open func loadNib() -> ChatInputBar {
         let view = Bundle(for: self).loadNibNamed(self.nibName(), owner: nil, options: nil)!.first as! ChatInputBar
@@ -125,11 +122,11 @@ open class ChatInputBar: ReusableXibView {
         view.frame = CGRect.zero
         return view
     }
-
+    
     override class func nibName() -> String {
         return "ChatInputBar"
     }
-
+    
     open override func awakeFromNib() {
         super.awakeFromNib()
         self.textView.scrollsToTop = false
@@ -148,7 +145,7 @@ open class ChatInputBar: ReusableXibView {
     }
     
     public var maxCharactersCount: UInt? // nil -> unlimited
-
+    
     private func updateIntrinsicContentSizeAnimated() {
         let options: UIViewAnimationOptions = [.beginFromCurrentState, .allowUserInteraction]
         UIView.animate(withDuration: 0.25, delay: 0, options: options, animations: { () -> Void in
@@ -157,12 +154,13 @@ open class ChatInputBar: ReusableXibView {
             self.superview?.layoutIfNeeded()
         }, completion: nil)
     }
-
+    
     open override func layoutSubviews() {
         self.updateConstraints() // Interface rotation or size class changes will reset constraints as defined in interface builder -> constraintsForVisibleTextView will be activated
         super.layoutSubviews()
+        updateTextViewExclusionPaths()
     }
-
+    
     var inputItems = [ChatInputItemProtocol]() {
         didSet {
             let inputItemViews = self.inputItems.map { (item: ChatInputItemProtocol) -> ChatInputItemView in
@@ -174,17 +172,17 @@ open class ChatInputBar: ReusableXibView {
             self.scrollView.addArrangedViews(inputItemViews)
         }
     }
-
+    
     open func becomeFirstResponderWithInputView(_ inputView: UIView?) {
         self.textView.inputView = inputView
-
+        
         if self.textView.isFirstResponder {
             self.textView.reloadInputViews()
         } else {
             self.textView.becomeFirstResponder()
         }
     }
-
+    
     public var inputText: String {
         get {
             return self.textView.text
@@ -203,7 +201,7 @@ open class ChatInputBar: ReusableXibView {
             self.textView.selectedRange = newValue
         }
     }
-
+    
     public var placeholderText: String {
         get {
             return self.textView.placeholderText
@@ -212,7 +210,7 @@ open class ChatInputBar: ReusableXibView {
             self.textView.placeholderText = newValue
         }
     }
-
+    
     fileprivate func updateSendButton() {
         self.sendButton.isEnabled = self.shouldEnableSendButton(self)
     }
@@ -234,14 +232,14 @@ open class ChatInputBar: ReusableXibView {
             }
         }
     }
-
+    
     @IBAction func buttonTapped(_ sender: AnyObject) {
         if !handleInputManually {
             self.presenter?.onSendButtonPressed()
         }
         self.delegate?.inputBarSendButtonPressed(self)
     }
-
+    
     public func setTextViewPlaceholderAccessibilityIdentifer(_ accessibilityIdentifer: String) {
         self.textView.setTextPlaceholderAccessibilityIdentifier(accessibilityIdentifer)
     }
@@ -250,10 +248,6 @@ open class ChatInputBar: ReusableXibView {
         icons.forEach { (state, icon) in
             self.sendButton.setBackgroundImage(icon, for: state.controlState)
         }
-    }
-    
-    public func setTextFieldButtonIcon(_ icon: UIImage) {
-        textFieldButton.setImage(icon, for: .normal)
     }
     
     public func setLoading(_ isLoading: Bool) {
@@ -270,6 +264,19 @@ open class ChatInputBar: ReusableXibView {
     public func focusOnTextField() {
         textView.becomeFirstResponder()
     }
+    
+    private func updateTextViewExclusionPaths() {
+        let correction: CGFloat = 5.0
+        let supButtonContainerRect: CGRect = supplementaryButtonsStackView.bounds
+        let excludedRect = CGRect(
+            x: textView.textContainer.size.width - supButtonContainerRect.width - correction,
+            y: 0,
+            width: supButtonContainerRect.width + correction,
+            height: supButtonContainerRect.height/2 - correction
+        )
+        let exclusionBezierPath = UIBezierPath(rect: excludedRect)
+        textView.textContainer.exclusionPaths = [exclusionBezierPath]
+    }
 }
 
 // MARK: - ChatInputItemViewDelegate
@@ -277,11 +284,11 @@ extension ChatInputBar: ChatInputItemViewDelegate {
     func inputItemViewTapped(_ view: ChatInputItemView) {
         self.focusOnInputItem(view.inputItem)
     }
-
+    
     public func focusOnInputItem(_ inputItem: ChatInputItemProtocol) {
         let shouldFocus = self.delegate?.inputBar(self, shouldFocusOnItem: inputItem) ?? true
         guard shouldFocus else { return }
-
+        
         self.presenter?.onDidReceiveFocusOnItem(inputItem)
         self.delegate?.inputBar(self, didReceiveFocusOnItem: inputItem)
     }
@@ -303,9 +310,6 @@ extension ChatInputBar {
         self.textBorderView.layer.borderWidth = appearance.textInputAppearance.borderWidth
         self.textBorderView.layer.cornerRadius = appearance.textInputAppearance.borderRadius
         self.textBorderView.layer.masksToBounds = true
-        self.textFieldButton.setImage(appearance.textInputAppearance.textFieldButtonIcon, for: .normal)
-        self.textFieldButton.addTarget(self, action: #selector(textFieldButtonTap), for: .touchUpInside)
-        self.textFieldButtonTapHandler = appearance.textInputAppearance.textFieldButtonTap
         
         self.tabBarInterItemSpacing = appearance.tabBarAppearance.interItemSpacing
         self.tabBarContentInsets = appearance.tabBarAppearance.contentInsets
@@ -354,6 +358,23 @@ extension ChatInputBar {
             settingsButton.setImage(icon, for: .normal)
             settingsButton.addTarget(self, action: #selector(settingsButtonTap), for: .touchUpInside)
         }
+        
+        for supplementaryButton in appearance.textInputAppearance.supplementaryButtons {
+            let button = UIButton(frame: CGRect.zero)
+            button.setImage(supplementaryButton.icon, for: .normal)
+            supplementaryButton.setIconHandler = { [weak button] (icon: UIImage) in
+                button?.setImage(icon, for: .normal)
+            }
+            supplementaryButton.isShowingHandler = { [weak button] (isShowing: Bool) in
+                button?.isHidden = !isShowing
+            }
+            button.addTarget(self, action: #selector(supplementaryButtonTap(_:)), for: .touchUpInside)
+            supplementaryButtonsMap[button] = supplementaryButton
+            supplementaryButtonsStackView.addArrangedSubview(button)
+        }
+        supplementaryButtonsStackView.sizeToFit()
+        
+        
     }
     
     @objc
@@ -362,10 +383,11 @@ extension ChatInputBar {
     }
     
     @objc
-    private func textFieldButtonTap() {
-        textFieldButtonTapHandler?()
+    private func supplementaryButtonTap(_ sender: UIButton) {
+        if let supButton: SupplementaryButton = supplementaryButtonsMap[sender] {
+            supButton.tapHandler?()
+        }
     }
-    
 }
 
 extension ChatInputBar { // Tabar
@@ -377,7 +399,7 @@ extension ChatInputBar { // Tabar
             self.scrollView.interItemSpacing = newValue
         }
     }
-
+    
     public var tabBarContentInsets: UIEdgeInsets {
         get {
             return self.scrollView.contentInset
@@ -393,23 +415,23 @@ extension ChatInputBar: UITextViewDelegate {
     public func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
         return self.delegate?.inputBarShouldBeginTextEditing(self) ?? true
     }
-
+    
     public func textViewDidEndEditing(_ textView: UITextView) {
         self.presenter?.onDidEndEditing()
         self.delegate?.inputBarDidEndEditing(self)
     }
-
+    
     public func textViewDidBeginEditing(_ textView: UITextView) {
         self.presenter?.onDidBeginEditing()
         self.delegate?.inputBarDidBeginEditing(self)
     }
-
+    
     public func textViewDidChange(_ textView: UITextView) {
         self.delegate?.inputBarDidChangeText(self)
         self.updateSendButton()
         self.updateCharactersCountLabel(textView.text.count)
     }
-
+    
     public func textView(_ textView: UITextView, shouldChangeTextIn nsRange: NSRange, replacementText text: String) -> Bool {
         let range = self.textView.text.bma_rangeFromNSRange(nsRange)
         if let maxCharactersCount = self.maxCharactersCount {
@@ -427,7 +449,7 @@ extension ChatInputBar: ExpandableTextViewPlaceholderDelegate {
     public func expandableTextViewDidShowPlaceholder(_ textView: ExpandableTextView) {
         self.delegate?.inputBarDidShowPlaceholder(self)
     }
-
+    
     public func expandableTextViewDidHidePlaceholder(_ textView: ExpandableTextView) {
         self.delegate?.inputBarDidHidePlaceholder(self)
     }
