@@ -73,7 +73,7 @@ open class ExpandableTextView: UITextView {
 
     override open func layoutSubviews() {
         super.layoutSubviews()
-        self.placeholder.frame = self.bounds
+        self.placeholder.frame = CGRect(origin: bounds.origin, size: CGSize(width: bounds.width - 40, height: bounds.height))
     }
 
     override open var intrinsicContentSize: CGSize {
@@ -122,11 +122,6 @@ open class ExpandableTextView: UITextView {
 
     open func setTextPlaceholderAccessibilityIdentifier(_ accessibilityIdentifier: String) {
         self.placeholder.accessibilityIdentifier = accessibilityIdentifier
-    }
-    
-    open func updateExclusionPaths(_ paths:[UIBezierPath]) {
-        textContainer.exclusionPaths = paths
-        placeholder.textContainer.exclusionPaths = paths
     }
 
     @objc func textDidChange() {
@@ -192,5 +187,6 @@ open class ExpandableTextView: UITextView {
         self.placeholder.textContainerInset = self.textContainerInset
         self.placeholder.backgroundColor = UIColor.clear
         self.placeholder.textContainer.maximumNumberOfLines = 1
+        self.placeholder.textContainer.lineBreakMode = .byTruncatingTail
     }
 }

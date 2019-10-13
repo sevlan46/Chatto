@@ -275,7 +275,7 @@ open class ChatInputBar: ReusableXibView {
             height: supButtonContainerRect.height/2 - correction
         )
         let exclusionBezierPath = UIBezierPath(rect: excludedRect)
-        textView.updateExclusionPaths([exclusionBezierPath])
+        textView.textContainer.exclusionPaths = [exclusionBezierPath]
     }
 }
 
