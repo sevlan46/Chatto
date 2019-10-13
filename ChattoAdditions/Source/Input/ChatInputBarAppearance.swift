@@ -42,6 +42,7 @@ public struct ChatInputBarAppearance {
         public var interItemSpacing: CGFloat = 10
         public var height: CGFloat = 44
         public var contentInsets = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 5)
+        public var settingsButton: SupplementaryButton?
     }
 
     public struct TextInputAppearance {
@@ -67,17 +68,10 @@ public struct ChatInputBarAppearance {
         public var keyboardAppearance: UIKeyboardAppearance = .dark
         public var supplementaryButtons: [SupplementaryButton] = []
     }
-    
-    public struct SettingsButtonAppearance {
-        public var isShowing: Bool = false
-        public var icon: UIImage?
-        public var tapHandler: (() -> ())?
-    }
 
     public var sendButtonAppearance = SendButtonAppearance()
     public var tabBarAppearance = TabBarAppearance()
     public var textInputAppearance = TextInputAppearance()
-    public var settingsButtonAppearance = SettingsButtonAppearance()
 
     public init() {}
 }

@@ -275,7 +275,7 @@ open class ChatInputBar: ReusableXibView {
             height: supButtonContainerRect.height/2 - correction
         )
         let exclusionBezierPath = UIBezierPath(rect: excludedRect)
-        textView.textContainer.exclusionPaths = [exclusionBezierPath]
+        textView.updateExclusionPaths([exclusionBezierPath])
     }
 }
 
@@ -348,11 +348,17 @@ extension ChatInputBar {
         self.charactersCountLabelMinVisibilityCount = appearance.textInputAppearance.charactersCountTextMinVisibilityCount
         self.charactersCountLabelColorsRanges = appearance.textInputAppearance.charactersCountTextColorsRanges
         
-        if appearance.settingsButtonAppearance.isShowing,
-            let icon: UIImage = appearance.settingsButtonAppearance.icon,
-            let tapHandler: () -> () = appearance.settingsButtonAppearance.tapHandler {
+        if let settingsSupButton: SupplementaryButton = appearance.tabBarAppearance.settingsButton,
+            let tapHandler: () -> () = settingsSupButton.tapHandler {
+            
+            let icon: UIImage = settingsSupButton.icon
             settingsButtonContainerWidthConstraint.constant = 32.0
             settingsButtonImageViewWidthConstraint.constant = 16.0
+            
+            settingsSupButton.isShowingHandler = { [weak settingsButtonContainerWidthConstraint, settingsButton] (isShowing: Bool) in
+                settingsButtonContainerWidthConstraint?.constant = isShowing ? 32.0 : 16.0
+                settingsButton?.isHidden = !isShowing
+            }
             
             settingsButtonTapHandler = tapHandler
             settingsButton.setImage(icon, for: .normal)

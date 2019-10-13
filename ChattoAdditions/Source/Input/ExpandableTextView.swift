@@ -123,6 +123,11 @@ open class ExpandableTextView: UITextView {
     open func setTextPlaceholderAccessibilityIdentifier(_ accessibilityIdentifier: String) {
         self.placeholder.accessibilityIdentifier = accessibilityIdentifier
     }
+    
+    open func updateExclusionPaths(_ paths:[UIBezierPath]) {
+        textContainer.exclusionPaths = paths
+        placeholder.textContainer.exclusionPaths = paths
+    }
 
     @objc func textDidChange() {
         self.updatePlaceholderVisibility()
@@ -186,5 +191,6 @@ open class ExpandableTextView: UITextView {
         self.placeholder.textAlignment = self.textAlignment
         self.placeholder.textContainerInset = self.textContainerInset
         self.placeholder.backgroundColor = UIColor.clear
+        self.placeholder.textContainer.maximumNumberOfLines = 1
     }
 }
